@@ -8,7 +8,8 @@ const mongoose = require('mongoose');
 const app = express();
 
 
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static('public'));
 
 const port = process.env.PORT || 3000
@@ -42,6 +43,8 @@ const blogpostSchema = mongoose.Schema({
 // const Article = mongoose.model('Article', articleSchema);
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
 
+
+
 app
   .route('/blogposts')
   .get((req, res) => {
@@ -55,6 +58,7 @@ app
     });
   })
   .post((req, res) => {
+    console.log('POST new blogpost');
     const newBlogpost = new Blogpost({
       name: req.body.name,
       longName: req.body.longName,
@@ -64,13 +68,14 @@ app
     console.log(req.body);  
     newBlogpost.save((err) => {
       if (!err) {
-        res.send('Succesfully added a new post: ' + newBlogpost );
+        res.send('Succesfully added a new post: ' + newBlogpost.name );
       } else {
         res.send(err);
       }
     });
   })
   .delete((req, res) => {
+    console.log('DELETE all');
     Blogpost.deleteMany((err) => {
       if (!err) {
         res.send('Successfully deleted ALL blogposts.');
@@ -80,15 +85,11 @@ app
     });
   });
 
-
-
-
-
 ///////////////////// request for a specific blogpost
 
 app.route('/blogposts/:blogpostID')
   .get((req, res) => {
-    console.log(req.params.blogpostID);
+    console.log('GET one post');
     Blogpost.findOne(
       {_id: req.params.blogpostID}, (err, foundBlogpost) => {
         if(foundBlogpost) {  
@@ -101,6 +102,7 @@ app.route('/blogposts/:blogpostID')
   })
 
   .put((req, res) => {
+    console.log('PUT');
     Blogpost.update(
       {_id: req.params.blogpostID},
       {title: req.body.title, content: req.body.content},
@@ -116,6 +118,7 @@ app.route('/blogposts/:blogpostID')
   })
 
   .patch((req,res) => {
+    console.log('PATCH');
     Blogpost.update(
       {_id: req.params.blogpostID},
       {$set: req.body},
@@ -139,6 +142,12 @@ app.route('/blogposts/:blogpostID')
         }
       })
   });
+
+
+
+app.get('/', (req, res) => {
+  res.send('Server is working');
+});  
 
 app.listen(port, () => {
   console.log('👍 Server started on port' + port);
