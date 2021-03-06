@@ -59,13 +59,14 @@ app
   })
   .post((req, res) => {
     console.log('POST new blogpost');
-    const newBlogpost = new Blogpost({
-      name: req.body.name,
-      longName: req.body.longName,
-      title: req.body.title,
-      description: req.body.description,
-    });
-    console.log(req.body);  
+    console.log(req.body);
+    // const newBlogpost = new Blogpost({
+    //   name: req.body.name,
+    //   longName: req.body.longName,
+    //   title: req.body.title,
+    //   description: req.body.description,
+    // });
+    const newBlogpost = new Blogpost(req.body);
     newBlogpost.save((err) => {
       if (!err) {
         res.send('Succesfully added a new post: ' + newBlogpost.name );
@@ -103,10 +104,10 @@ app.route('/blogposts/:blogpostID')
 
   .put((req, res) => {
     console.log('PUT');
-    Blogpost.update(
+    console.log(req.body);
+    Blogpost.replaceOne(
       {_id: req.params.blogpostID},
-      {title: req.body.title, content: req.body.content},
-      {overwrite: true},
+      req.body,
       (err, results) => {
         if(!err) {
           res.send(results);
@@ -119,7 +120,7 @@ app.route('/blogposts/:blogpostID')
 
   .patch((req,res) => {
     console.log('PATCH');
-    Blogpost.update(
+    Blogpost.updateOne(
       {_id: req.params.blogpostID},
       {$set: req.body},
       (err, results) => {
@@ -150,5 +151,7 @@ app.get('/', (req, res) => {
 });  
 
 app.listen(port, () => {
+  console.log('=======================================================');
   console.log('👍 Server started on port' + port);
+  console.log('=======================================================');
 });
