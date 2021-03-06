@@ -86,11 +86,11 @@ app
 
 ///////////////////// request for a specific blogpost
 
-app.route('/blogposts/:blogpostsID')
+app.route('/blogposts/:blogpostID')
   .get((req, res) => {
-    console.log(req.params.blogpostsID);
+    console.log(req.params.blogpostID);
     Blogpost.findOne(
-      {_id: req.params.blogpostsID}, (err, foundBlogpost) => {
+      {_id: req.params.blogpostID}, (err, foundBlogpost) => {
         if(foundBlogpost) {  
           res.send(foundBlogpost);
         } else {
@@ -101,8 +101,8 @@ app.route('/blogposts/:blogpostsID')
   })
 
   .put((req, res) => {
-    Article.update(
-      {title: req.params.articleTitle},
+    Blogpost.update(
+      {_id: req.params.blogpostID},
       {title: req.body.title, content: req.body.content},
       {overwrite: true},
       (err, results) => {
@@ -116,8 +116,8 @@ app.route('/blogposts/:blogpostsID')
   })
 
   .patch((req,res) => {
-    Article.update(
-      {title: req.params.articleTitle},
+    Blogpost.update(
+      {_id: req.params.blogpostID},
       {$set: req.body},
       (err, results) => {
         if(!err) {
@@ -129,8 +129,8 @@ app.route('/blogposts/:blogpostsID')
     )
   })
   .delete((req, res) => {
-    Article.deleteOne(
-      {title: req.params.articleTitle},
+    Blogpost.deleteOne(
+      {_id: req.params.blogpostID},
       (err) => {
         if(!err) {
           res.send("🚫successfully deleted");
