@@ -18,7 +18,6 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).catch
   console.error('😱Something went wrong: ' + err);
 });
 
-;
 
 // ==========================================================================
 
