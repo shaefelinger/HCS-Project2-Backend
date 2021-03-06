@@ -11,8 +11,8 @@ app.use(express.static('public'));
 
 const port = process.env.PORT || 3000
 
-// const url = process.env.MONGO_URL;
-const url = 'mongodb+srv://dbUser:' + process.env.MONGO_PW + '@cluster0.dq3y7.mongodb.net/' + process.env.MONGO_DB;
+const url = process.env.MONGO_URL;
+// const url = 'mongodb+srv://dbUser:' + process.env.MONGO_PW + '@cluster0.dq3y7.mongodb.net/' + process.env.MONGO_DB;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
