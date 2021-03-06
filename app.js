@@ -2,11 +2,9 @@ require('dotenv').config();
 
 
 const express = require('express');
-// const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const app = express();
-
 
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,11 +16,6 @@ const url = process.env.MONGO_URL;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-
-// const articleSchema = mongoose.Schema({
-//   title: String,
-//   content: String,
-// });
 
 const blogpostSchema = mongoose.Schema({
   name: String,
@@ -40,10 +33,7 @@ const blogpostSchema = mongoose.Schema({
   authorID: String
 });
 
-// const Article = mongoose.model('Article', articleSchema);
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
-
-
 
 app
   .route('/blogposts')
@@ -59,7 +49,7 @@ app
   })
   .post((req, res) => {
     console.log('POST new blogpost');
-    console.log(req.body);
+    // console.log(req.body);
     // const newBlogpost = new Blogpost({
     //   name: req.body.name,
     //   longName: req.body.longName,
@@ -87,7 +77,6 @@ app
   });
 
 ///////////////////// request for a specific blogpost
-
 app.route('/blogposts/:blogpostID')
   .get((req, res) => {
     console.log('GET one post');
@@ -104,7 +93,7 @@ app.route('/blogposts/:blogpostID')
 
   .put((req, res) => {
     console.log('PUT');
-    console.log(req.body);
+    // console.log(req.body);
     Blogpost.replaceOne(
       {_id: req.params.blogpostID},
       req.body,
@@ -137,7 +126,7 @@ app.route('/blogposts/:blogpostID')
       {_id: req.params.blogpostID},
       (err) => {
         if(!err) {
-          res.send("🚫successfully deleted");
+          res.send("🚫successfully deleted ONE Blogpost");
         } else {
           res.send(err)
         }
