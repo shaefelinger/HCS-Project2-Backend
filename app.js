@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -12,10 +11,34 @@ app.use(express.static('public'));
 
 const port = process.env.PORT || 3000
 
-const url = process.env.MONGO_URL;
+// const url = process.env.MONGO_URL;
+const url = 'mongodb+srv://dbUser:' + process.env.MONGO_PW + '@cluster0.dq3y7.mongodb.net/' + process.env.MONGO_DB;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// ==========================================================================
+
+app.get('/', (req, res) => {
+  res.send(
+    `<h1>REST-API for Around The World-Blog</h1>
+    <h2>Server is working</h2>
+    <hr>
+    <h3>/blogposts</h3>
+    <p>GET - POST - DELETE</>
+    <h3>/blogposts/:blogpostID</h3>
+    <p>GET - PUT - PATCH - DELETE</>
+    <hr>
+    <h3>/users</h3>
+    <p>GET - POST - DELETE</>
+    <h3>/users/:userID</h3>
+    <p>GET - PUT - PATCH - DELETE</>
+    `
+    );
+});  
+
+// ==========================================================================
+// Blogposts
+// ==========================================================================
 
 const blogpostSchema = mongoose.Schema({
   name: String,
@@ -35,11 +58,13 @@ const blogpostSchema = mongoose.Schema({
 
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
 
+
+///////////////////// request for ALL blogposts
 app
   .route('/blogposts')
   .get((req, res) => {
     Blogpost.find((err, foundBlogposts) => {
-      console.log('GET all');
+      console.log('GET all blogposts');
       if (!err) {
         res.send(foundBlogposts);
       } else {
@@ -49,24 +74,18 @@ app
   })
   .post((req, res) => {
     console.log('POST new blogpost');
-    // console.log(req.body);
-    // const newBlogpost = new Blogpost({
-    //   name: req.body.name,
-    //   longName: req.body.longName,
-    //   title: req.body.title,
-    //   description: req.body.description,
-    // });
+ 
     const newBlogpost = new Blogpost(req.body);
     newBlogpost.save((err) => {
       if (!err) {
-        res.send('Succesfully added a new post: ' + newBlogpost.name );
+        res.send('Succesfully added a new blogpost: ' + newBlogpost.name );
       } else {
         res.send(err);
       }
     });
   })
   .delete((req, res) => {
-    console.log('DELETE all');
+    console.log('DELETE all blogposts');
     Blogpost.deleteMany((err) => {
       if (!err) {
         res.send('Successfully deleted ALL blogposts.');
@@ -79,7 +98,7 @@ app
 ///////////////////// request for a specific blogpost
 app.route('/blogposts/:blogpostID')
   .get((req, res) => {
-    console.log('GET one post');
+    console.log('GET one blogpost');
     Blogpost.findOne(
       {_id: req.params.blogpostID}, (err, foundBlogpost) => {
         if(foundBlogpost) {  
@@ -133,14 +152,115 @@ app.route('/blogposts/:blogpostID')
       })
   });
 
+// ==========================================================================
+// Users
+// ==========================================================================
 
+const userSchema = mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  userimage: String
+});
 
-app.get('/', (req, res) => {
-  res.send('Server is working');
-});  
+const User = mongoose.model('User', userSchema);
+
+///////////////////// request for ALL users
+app
+  .route('/users')
+  .get((req, res) => {
+    User.find((err, foundUsers) => {
+      console.log('GET all Users');
+      if (!err) {
+        res.send(foundUsers);
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .post((req, res) => {
+    console.log('POST new user', req.body);
+ 
+    const newUser = new User(req.body);
+    newUser.save((err) => {
+      if (!err) {
+        res.send('Succesfully added a new user: ' + newUser.name );
+      } else {
+        res.send(err);
+      }
+    });
+  })
+  .delete((req, res) => {
+    console.log('DELETE all Users');
+    User.deleteMany((err) => {
+      if (!err) {
+        res.send('Successfully deleted ALL users');
+      } else {
+        res.send(err);
+      }
+    });
+  });
+///////////////////// request for a specific user
+app.route('/users/:userID')
+  .get((req, res) => {
+    console.log('GET one user');
+    User.findOne(
+      {_id: req.params.userID}, (err, foundUser) => {
+        if(foundUser) {  
+          res.send(foundUser);
+        } else {
+          res.send("No User found");
+        }
+      }
+    )
+  })
+
+  .put((req, res) => {
+    console.log('PUT user');
+    // console.log(req.body);
+    User.replaceOne(
+      {_id: req.params.userID},
+      req.body,
+      (err, results) => {
+        if(!err) {
+          res.send(results);
+        } else {
+          res.send(err)
+        }
+      }
+    )
+  })
+
+  .patch((req,res) => {
+    console.log('PATCH user');
+    User.updateOne(
+      {_id: req.params.userID},
+      {$set: req.body},
+      (err, results) => {
+        if(!err) {
+          res.send(results);
+        } else {
+          res.send(err)
+        }
+      }
+    )
+  })
+  .delete((req, res) => {
+    User.deleteOne(
+      {_id: req.params.userID},
+      (err) => {
+        if(!err) {
+          res.send("🚫successfully deleted ONE User");
+        } else {
+          res.send(err)
+        }
+      })
+  });
+
+  // ==========================================================================
 
 app.listen(port, () => {
   console.log('=======================================================');
-  console.log('👍 Server started on port' + port);
+  console.log('👍 Server started on port ' + port);
   console.log('=======================================================');
 });
