@@ -66,6 +66,7 @@ const Blogpost = mongoose.model('Blogpost', blogpostSchema);
 app
   .route('/blogposts')
   .get((req, res) => {
+    console.log(req.headers.auth_header);
     Blogpost.find((err, foundBlogposts) => {
       console.log('GET all blogposts');
       if (!err) {

@@ -1,0 +1,62 @@
+https://aroundtheworld-blog-server.herokuapp.com/blogposts
+Auth_header: 2-3-5-7-11-13-17-19-23-29
+
+
+###
+https://aroundtheworld-blog-server.herokuapp.com/users
+
+###
+http://localhost:3000/blogposts
+
+
+###
+http://localhost:3000/blogposts
+Auth_header: test
+
+
+
+
+
+###
+
+
+
+
+
+
+// See how to do this in code using the fetch api:
+
+
+
+
+        // hackServer: function () {
+
+        //     fetch(backendurl + '/iamacheater', {
+        //         headers: {
+        //             'Auth_header': '2-3-5-7-11-13-17-19-23-29'
+        //         }
+        //     })
+        //         .then(response => {
+        //             return response.json()
+        //         })
+        //         .then(data => this.output = data)    
+        //         .catch(err => this.output = err);
+
+        //     this.showOutputSection = true;
+
+        // },
+
+
+        // resetServer: function () {
+        //     fetch(backendurl + '/restartgame', {
+        //         headers: {
+        //             'Auth_header': 'hamburgcodingschool',
+        //         },
+
+        //         method: 'PUT',
+
+        //     })
+        //     this.clearGame();
+        // },
+
+
