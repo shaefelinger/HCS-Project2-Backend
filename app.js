@@ -61,7 +61,6 @@ const blogpostSchema = mongoose.Schema({
 
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
 
-
 ///////////////////// request for ALL blogposts
 app
   .route('/blogposts')
