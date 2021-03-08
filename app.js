@@ -59,7 +59,7 @@ const blogpostSchema = mongoose.Schema({
   image1URL: String,
   image2URL: String,
   wiki: String,
-  utc_offset: Number,
+  utcOffset: Number,
   authorID: String
 });
 
@@ -167,7 +167,7 @@ const userSchema = mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  userimage: String
+  profilePic: String
 });
 
 const User = mongoose.model('User', userSchema);
