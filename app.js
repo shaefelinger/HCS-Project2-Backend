@@ -4,11 +4,26 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 
+const cookieSession = require('cookie-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
 const app = express();
 
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+
+app.use(
+  cookieSession({
+    name: 'mysession',
+    keys: ['vueauthrandomkey'],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(cors());
 
@@ -37,10 +52,110 @@ app.get('/', (req, res) => {
     <p>GET - POST - DELETE</>
     <h3>/users/:userID</h3>
     <p>GET - PUT - PATCH - DELETE</>
+    <hr>
+    <h3>/auth</h3>
+    <p> POST - /login</p>
+    <p> GET - /logout</p>
+    <p> GET - /user</p>
     `
   );
 });
 
+// ==========================================================================
+// auth
+// ==========================================================================
+let users = [
+  {
+    _id: '1',
+    name: 'XX',
+    email: 'x@x.com',
+    password: 'x',
+    profilePic: '',
+  },
+  {
+    _id: '2',
+    name: 'Steffen',
+    email: 's.haefelinger@gmx.de',
+    password: 'x',
+    profilePic: '',
+  },
+];
+
+app.post('/auth/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    console.log(user);
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      return res.status(400).send([user, 'Cannot log in', info]);
+    }
+
+    req.login(user, (err) => {
+      res.send('Logged in');
+    });
+  })(req, res, next);
+});
+
+app.get('/auth/logout', function (req, res) {
+  req.logout();
+  console.log('logged out');
+  return res.send('user logged out');
+});
+
+const authMiddleware = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    console.log('🚫not auth');
+    res.status(401).send('You are not authenticated');
+  } else {
+    console.log('👍auth');
+    return next();
+  }
+};
+
+app.get('/auth/', (rw, res) => {
+  res.send('auth is kinda working');
+});
+
+app.get('/auth/user', authMiddleware, (req, res) => {
+  let user = users.find((user) => {
+    return user.id === req.session.passport.user;
+  });
+  res.send({ user: user });
+});
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+
+    (username, password, done) => {
+      let user = users.find((user) => {
+        return user.email === username && user.password === password;
+      });
+
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false, { message: 'Incorrect username or password' });
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  let user = users.find((user) => {
+    return user.id === id;
+  });
+  done(null, user);
+});
 // ==========================================================================
 // Blogposts
 // ==========================================================================
