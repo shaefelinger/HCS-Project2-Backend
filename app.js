@@ -93,7 +93,7 @@ app.post('/auth/login', (req, res, next) => {
     }
 
     req.login(user, (err) => {
-      res.send('Logged in');
+      res.send('👍Logged in');
     });
   })(req, res, next);
 });
