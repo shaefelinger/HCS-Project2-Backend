@@ -66,18 +66,16 @@ app.get('/', (req, res) => {
 // ==========================================================================
 let users = [
   {
-    _id: '1',
+    id: 1,
+    name: 'Steffen Häfelinger',
+    email: 's.haefelinger@gmx.de',
+    password: 'x',
+  },
+  {
+    id: 2,
     name: 'XX',
     email: 'x@x.com',
     password: 'x',
-    profilePic: '',
-  },
-  {
-    _id: '2',
-    name: 'Steffen',
-    email: 's.haefelinger@gmx.de',
-    password: 'x',
-    profilePic: '',
   },
 ];
 
@@ -89,7 +87,8 @@ app.post('/auth/login', (req, res, next) => {
     }
 
     if (!user) {
-      return res.status(401).send([user, '🤷‍♂️Cannot log in', info]);
+      console.log('🚫Cannot log in');
+      return res.status(400).send([user, '🤷‍♂️Cannot log in', info]);
     }
 
     req.login(user, (err) => {
@@ -154,6 +153,7 @@ passport.deserializeUser((id, done) => {
   let user = users.find((user) => {
     return user.id === id;
   });
+
   done(null, user);
 });
 // ==========================================================================
