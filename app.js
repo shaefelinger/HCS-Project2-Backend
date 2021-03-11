@@ -1,14 +1,14 @@
 require('dotenv').config();
 
 const express = require('express');
+const app = express();
+
 const mongoose = require('mongoose');
 const cors = require('cors');
 
 const cookieSession = require('cookie-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
-const app = express();
 
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -92,6 +92,7 @@ app.post('/auth/login', (req, res, next) => {
     }
 
     req.login(user, (err) => {
+      console.log('👍Logged in');
       res.send('👍Logged in');
     });
   })(req, res, next);
