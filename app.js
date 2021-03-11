@@ -66,13 +66,13 @@ app.get('/', (req, res) => {
 // ==========================================================================
 let users = [
   {
-    id: 1,
+    _id: 1,
     name: 'Steffen Häfelinger',
     email: 's.haefelinger@gmx.de',
     password: 'x',
   },
   {
-    id: 2,
+    _id: 2,
     name: 'XX',
     email: 'x@x.com',
     password: 'x',
@@ -119,7 +119,7 @@ app.get('/auth/', (rw, res) => {
 
 app.get('/auth/user', authMiddleware, (req, res) => {
   let user = users.find((user) => {
-    return user.id === req.session.passport.user;
+    return user._id === req.session.passport.user;
   });
   res.send({ user: user });
 });
@@ -146,12 +146,12 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  done(null, user.id);
+  done(null, user._id);
 });
 
-passport.deserializeUser((id, done) => {
+passport.deserializeUser((_id, done) => {
   let user = users.find((user) => {
-    return user.id === id;
+    return user._id === _id;
   });
 
   done(null, user);
