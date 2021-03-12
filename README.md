@@ -1,3 +1,6 @@
 # HCS-Project2-Backend
 Server for the Around The World-blog 
 
+Running on:
+
+https://aroundtheworld-blog-server.herokuapp.com
