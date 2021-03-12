@@ -19,7 +19,6 @@ app.use(
     name: 'mysession',
     keys: ['vueauthrandomkey'],
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    secure: true,
   })
 );
 
@@ -65,6 +64,7 @@ app.get('/', (req, res) => {
 // ==========================================================================
 // auth
 // ==========================================================================
+// hardcoded users for testing
 let users = [
   {
     _id: 1,
