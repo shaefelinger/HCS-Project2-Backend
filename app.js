@@ -67,109 +67,6 @@ app.get('/', (req, res, next) => {
 });
 
 // ==========================================================================
-// auth
-// ==========================================================================
-// hardcoded users for testing
-let users = [
-  {
-    _id: 1,
-    name: 'Test User',
-    email: 'testuser@test.com',
-    password: 'test123',
-  },
-  {
-    _id: 2,
-    name: 'XX',
-    email: 'x@x.com',
-    password: 'x',
-  },
-  {
-    _id: 3,
-    name: 'Steffen Häfelinger',
-    email: 's.haefelinger@gmx.de',
-    password: 'x',
-  },
-];
-
-app.post('/auth/login', (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    console.log(user);
-    if (err) {
-      return next(err);
-    }
-
-    if (!user) {
-      console.log('🚫Cannot log in');
-      return res.status(400).send([user, '🤷‍♂️Cannot log in', info]);
-    }
-
-    req.login(user, (err) => {
-      console.log('👍Logged in');
-      res.send('👍Logged in');
-    });
-  })(req, res, next);
-});
-
-app.get('/auth/logout', function (req, res) {
-  req.logout();
-  console.log('logged out');
-  return res.send('user logged out');
-});
-
-const authMiddleware = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    console.log('🚫not auth');
-    res.status(401).send('You are not authenticated');
-  } else {
-    console.log('👍auth');
-    return next();
-  }
-};
-
-app.get('/auth/', (rw, res) => {
-  res.send('auth is kinda working');
-});
-
-app.get('/auth/user', authMiddleware, (req, res) => {
-  let user = users.find((user) => {
-    return user._id === req.session.passport.user;
-  });
-  res.send({ user: user });
-});
-
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: 'email',
-      passwordField: 'password',
-    },
-
-    (username, password, done) => {
-      let user = users.find((user) => {
-        return user.email === username && user.password === password;
-      });
-
-      if (user) {
-        done(null, user);
-      } else {
-        done(null, false, { message: 'Incorrect username or password' });
-      }
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-
-passport.deserializeUser((_id, done) => {
-  let user = users.find((user) => {
-    return user._id === _id;
-  });
-
-  done(null, user);
-});
-// ==========================================================================
 // Blogposts
 // ==========================================================================
 
@@ -367,6 +264,130 @@ app
       }
     });
   });
+
+// hardcoded users for testing
+let users = [
+  {
+    _id: 1,
+    name: 'Test User_hc',
+    email: 'testuser@test.com',
+    password: 'test123',
+  },
+  {
+    _id: 2,
+    name: 'XX_hc',
+    email: 'x@x.com',
+    password: 'x',
+  },
+  {
+    _id: 3,
+    name: 'Steffen Häfelinger_hc',
+    email: 's.haefelinger@gmx.de',
+    password: 'x',
+  },
+];
+
+// let users = [];
+
+// ==========================================================================
+// auto-load the users for auth
+// ==========================================================================
+// User.find((err, foundUsers) => {
+//   console.log('GET all Users automatically');
+//   if (!err) {
+//     const temp = foundUsers;
+//     users = temp.map((element) => {
+//       element._id = toString(element._id);
+//       console.log(element);
+//     });
+//     console.log('👍auto', users);
+//   } else {
+//     console.log('🤯 auto did not work', err);
+//   }
+// });
+
+// ==========================================================================
+// auth
+// ==========================================================================
+
+app.post('/auth/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    console.log(user);
+    if (err) {
+      return next(err);
+    }
+
+    if (!user) {
+      console.log('🚫Cannot log in');
+      return res.status(400).send([user, '🤷‍♂️Cannot log in', info]);
+    }
+
+    req.login(user, (err) => {
+      console.log('👍Logged in');
+      res.send('👍Logged in');
+    });
+  })(req, res, next);
+});
+
+app.get('/auth/logout', function (req, res) {
+  req.logout();
+  console.log('logged out');
+  return res.send('user logged out');
+});
+
+const authMiddleware = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    console.log('🚫not auth');
+    res.status(401).send('You are not authenticated');
+  } else {
+    console.log('👍auth');
+    return next();
+  }
+};
+
+app.get('/auth/', (rw, res) => {
+  res.send('auth is kinda working');
+});
+
+app.get('/auth/user', authMiddleware, (req, res) => {
+  let user = users.find((user) => {
+    return user._id === req.session.passport.user;
+  });
+  res.send({ user: user });
+});
+
+passport.use(
+  new LocalStrategy(
+    {
+      usernameField: 'email',
+      passwordField: 'password',
+    },
+
+    (username, password, done) => {
+      let user = users.find((user) => {
+        return user.email === username && user.password === password;
+      });
+
+      if (user) {
+        done(null, user);
+      } else {
+        done(null, false, { message: 'Incorrect username or password' });
+      }
+    }
+  )
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user._id);
+});
+
+passport.deserializeUser((_id, done) => {
+  let user = users.find((user) => {
+    return user._id === _id;
+  });
+
+  done(null, user);
+});
 
 // ==========================================================================
 
