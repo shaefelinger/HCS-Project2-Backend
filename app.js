@@ -268,19 +268,19 @@ app
 // hardcoded users for testing
 let users = [
   {
-    _id: 1,
+    _id: '1a',
     name: 'Test User_hc',
     email: 'testuser@test.com',
     password: 'test123',
   },
   {
-    _id: 2,
+    _id: '2a',
     name: 'XX_hc',
     email: 'x@x.com',
     password: 'x',
   },
   {
-    _id: 3,
+    _id: '3a',
     name: 'Steffen Häfelinger_hc',
     email: 's.haefelinger@gmx.de',
     password: 'x',
@@ -350,6 +350,7 @@ app.get('/auth/', (rw, res) => {
 });
 
 app.get('/auth/user', authMiddleware, (req, res) => {
+  console.log('/auth/user:', req.session.passport);
   let user = users.find((user) => {
     return user._id === req.session.passport.user;
   });
@@ -378,10 +379,13 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
+  console.log('serialize');
+
   done(null, user._id);
 });
 
 passport.deserializeUser((_id, done) => {
+  console.log('deserialize');
   let user = users.find((user) => {
     return user._id === _id;
   });
