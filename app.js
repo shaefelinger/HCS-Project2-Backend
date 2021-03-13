@@ -12,7 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 // app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/dist'));
 
 app.use(
   cookieSession({
@@ -38,7 +38,7 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).catch
 
 // ==========================================================================
 
-app.get('/', (req, res) => {
+app.get('/help', (req, res) => {
   res.send(
     `<h1>REST-API for Around The World-Blog</h1>
     <h2>Server is working</h2>
@@ -59,6 +59,11 @@ app.get('/', (req, res) => {
     <p> GET - /user</p>
     `
   );
+});
+const publicRoot = __dirname + '/public/dist';
+
+app.get('/', (req, res, next) => {
+  res.sendFile(publicRoot + '/index.html');
 });
 
 // ==========================================================================
