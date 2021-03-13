@@ -73,14 +73,20 @@ app.get('/', (req, res, next) => {
 let users = [
   {
     _id: 1,
-    name: 'Steffen Häfelinger',
-    email: 's.haefelinger@gmx.de',
-    password: 'x',
+    name: 'Test User',
+    email: 'testuser@test.com',
+    password: 'test123',
   },
   {
     _id: 2,
     name: 'XX',
     email: 'x@x.com',
+    password: 'x',
+  },
+  {
+    _id: 3,
+    name: 'Steffen Häfelinger',
+    email: 's.haefelinger@gmx.de',
     password: 'x',
   },
 ];
