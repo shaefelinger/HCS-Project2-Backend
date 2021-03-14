@@ -350,7 +350,7 @@ app.get('/auth/', (rw, res) => {
 app.get('/auth/user', authMiddleware, (req, res) => {
   console.log('/auth/user:', req.session.passport);
   let user = users.find((user) => {
-    return user.index === req.session.passport.user;
+    return user._id === req.session.passport.user;
   });
   res.send({ user: user });
 });
@@ -379,13 +379,13 @@ passport.use(
 passport.serializeUser((user, done) => {
   console.log('serialize');
 
-  done(null, user.index);
+  done(null, user._id);
 });
 
-passport.deserializeUser((index, done) => {
+passport.deserializeUser((_id, done) => {
   console.log('deserialize');
   let user = users.find((user) => {
-    return user.index === index;
+    return user._id === _id;
   });
 
   done(null, user);
