@@ -268,38 +268,36 @@ app
 // hardcoded users for testing
 let users = [
   {
-    _id: '1a',
+    _id: 1,
+    index: 11,
     name: 'Test User_hc',
     email: 'testuser@test.com',
     password: 'test123',
   },
   {
-    _id: '2a',
+    _id: 2,
+    index: 22,
     name: 'XX_hc',
     email: 'x@x.com',
     password: 'x',
   },
   {
-    _id: '3a',
+    _id: 3,
+    index: 33,
     name: 'Steffen Häfelinger_hc',
     email: 's.haefelinger@gmx.de',
     password: 'x',
   },
 ];
 
-// let users = [];
-
 // ==========================================================================
 // auto-load the users for auth
 // ==========================================================================
+// let users = [];
 // User.find((err, foundUsers) => {
 //   console.log('GET all Users automatically');
 //   if (!err) {
-//     const temp = foundUsers;
-//     users = temp.map((element) => {
-//       element._id = toString(element._id);
-//       console.log(element);
-//     });
+//     users = foundUsers;
 //     console.log('👍auto', users);
 //   } else {
 //     console.log('🤯 auto did not work', err);
@@ -352,7 +350,7 @@ app.get('/auth/', (rw, res) => {
 app.get('/auth/user', authMiddleware, (req, res) => {
   console.log('/auth/user:', req.session.passport);
   let user = users.find((user) => {
-    return user._id === req.session.passport.user;
+    return user.index === req.session.passport.user;
   });
   res.send({ user: user });
 });
@@ -381,13 +379,13 @@ passport.use(
 passport.serializeUser((user, done) => {
   console.log('serialize');
 
-  done(null, user._id);
+  done(null, user.index);
 });
 
-passport.deserializeUser((_id, done) => {
+passport.deserializeUser((index, done) => {
   console.log('deserialize');
   let user = users.find((user) => {
-    return user._id === _id;
+    return user.index === index;
   });
 
   done(null, user);
