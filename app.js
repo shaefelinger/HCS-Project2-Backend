@@ -114,7 +114,7 @@ app
       }
     });
   })
-  .delete((req, res) => {
+  .delete((req, res) => { 
     console.log('DELETE all blogposts');
     Blogpost.deleteMany((err) => {
       if (!err) {
