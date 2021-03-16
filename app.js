@@ -10,7 +10,6 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-// app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(__dirname + '/public/dist'));
 
@@ -29,7 +28,6 @@ app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
 
 const port = process.env.PORT || 3000;
 
-// const url = process.env.MONGO_URL;
 const url = 'mongodb+srv://dbUser:' + process.env.MONGO_PW + '@cluster0.dq3y7.mongodb.net/' + process.env.MONGO_DB;
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true }).catch((err) => {
@@ -60,6 +58,10 @@ app.get('/help', (req, res) => {
     `
   );
 });
+
+// ==========================================================================
+// Deploy vue-app
+// ==========================================================================
 const publicRoot = __dirname + '/public/dist';
 
 app.get('/', (req, res, next) => {
