@@ -17,7 +17,7 @@ const LocalStrategy = require('passport-local').Strategy;
 
 app.use(express.json());
 app.use(express.static(__dirname + '/public/dist'));
-
+  
 
 app.use(
   cookieSession({
