@@ -3,6 +3,10 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 
+// const history = require('connect-history-api-fallback');
+
+// app.use(history());
+
 const mongoose = require('mongoose');
 const cors = require('cors');
 
@@ -10,12 +14,10 @@ const cookieSession = require('cookie-session');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const history = require('connect-history-api-fallback');
 
 app.use(express.json());
 app.use(express.static(__dirname + '/public/dist'));
 
-app.use(history());
 
 app.use(
   cookieSession({
