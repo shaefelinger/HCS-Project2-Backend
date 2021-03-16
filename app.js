@@ -137,8 +137,7 @@ app
         res.send(foundBlogpost);
       } else {
         // res.send('No Blogpost found');
-        console.log('es muss ein error passieren');
-        res.status(404).send('server says: no user');
+        res.status(404).send('server says: No Blogpost found');
       }
     });
   })
