@@ -324,15 +324,14 @@ app.post('/auth/login', (req, res, next) => {
     if (err) {
       return next(err);
     }
-
     if (!user) {
       console.log('🚫Cannot log in');
       return res.status(400).send([user, '🤷‍♂️Cannot log in', info]);
     }
-
     req.login(user, (err) => {
       console.log('👍Logged in');
-      res.send('👍Logged in');
+      console.log('login:', user);
+      res.send(user);
     });
   })(req, res, next);
 });
@@ -354,7 +353,7 @@ const authMiddleware = (req, res, next) => {
 };
 
 app.get('/auth/', (rw, res) => {
-  res.send('auth is kinda working');
+  res.send('auth is working');
 });
 
 app.get('/auth/user', authMiddleware, (req, res) => {
@@ -388,7 +387,6 @@ passport.use(
 
 passport.serializeUser((user, done) => {
   console.log('serialize');
-
   done(null, user._id);
 });
 
@@ -397,7 +395,6 @@ passport.deserializeUser((_id, done) => {
   let user = users.find((user) => {
     return user._id === _id;
   });
-
   done(null, user);
 });
 
