@@ -217,6 +217,7 @@ app
         res.send(err);
       }
     });
+    updateUsersFromDB()
   })
   .delete((req, res) => {
     console.log('DELETE all Users');
@@ -227,6 +228,7 @@ app
         res.send(err);
       }
     });
+    updateUsersFromDB()
   });
 ///////////////////// request for a specific user
 app
@@ -253,6 +255,7 @@ app
         res.send(err);
       }
     });
+    updateUsersFromDB()
   })
 
   .patch((req, res) => {
@@ -264,6 +267,7 @@ app
         res.send(err);
       }
     });
+    updateUsersFromDB()
   })
   .delete((req, res) => {
     User.deleteOne({ _id: req.params.userID }, (err) => {
@@ -273,46 +277,51 @@ app
         res.send(err);
       }
     });
+    updateUsersFromDB()
   });
 
 // hardcoded users for testing
-let users = [
-  {
-    _id: 1,
-    index: 11,
-    name: 'Test User_hc',
-    email: 'testuser@test.com',
-    password: 'test123',
-  },
-  {
-    _id: 2,
-    index: 22,
-    name: 'XX_hc',
-    email: 'x@x.com',
-    password: 'x',
-  },
-  {
-    _id: 3,
-    index: 33,
-    name: 'Steffen Häfelinger_hc',
-    email: 's.haefelinger@gmx.de',
-    password: 'x',
-  },
-];
+// let users = [
+//   {
+//     _id: 1,
+//     index: 11,
+//     name: 'Test User_hc',
+//     email: 'testuser@test.com',
+//     password: 'test123',
+//   },
+//   {
+//     _id: 2,
+//     index: 22,
+//     name: 'XX_hc',
+//     email: 'x@x.com',
+//     password: 'x',
+//   },
+//   {
+//     _id: 3,
+//     index: 33,
+//     name: 'Steffen Häfelinger_hc',
+//     email: 's.haefelinger@gmx.de',
+//     password: 'x',
+//   },
+// ];
 
 // ==========================================================================
 // auto-load the users for auth
 // ==========================================================================
-// let users = [];
-// User.find((err, foundUsers) => {
-//   console.log('GET all Users automatically');
-//   if (!err) {
-//     users = foundUsers;
-//     console.log('👍auto', users);
-//   } else {
-//     console.log('🤯 auto did not work', err);
-//   }
-// });
+function updateUsersFromDB () {
+  users = []
+  User.find((err, foundUsers) => {
+    console.log('GET all Users automatically');
+    if (!err) {
+      users = foundUsers;
+      console.log('👍auto', users);
+    } else {
+      console.log('🤯 auto did not work', err);
+    }
+  });
+}
+let users = [];
+updateUsersFromDB()
 
 // ==========================================================================
 // auth
@@ -358,8 +367,9 @@ app.get('/auth/', (rw, res) => {
 
 app.get('/auth/user', authMiddleware, (req, res) => {
   console.log('/auth/user:', req.session.passport);
+
   let user = users.find((user) => {
-    return user._id === req.session.passport.user;
+    return user._id == req.session.passport.user._id;
   });
   res.send({ user: user });
 });
@@ -391,9 +401,9 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((_id, done) => {
-  console.log('deserialize');
+  console.log('deserialize',_id);
   let user = users.find((user) => {
-    return user._id === _id;
+    return user._id == _id;
   });
   done(null, user);
 });
