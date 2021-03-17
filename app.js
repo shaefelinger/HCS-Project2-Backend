@@ -16,7 +16,8 @@ const LocalStrategy = require('passport-local').Strategy;
 
 
 app.use(express.json());
-app.use(express.static(__dirname + '/public/dist'));
+app.use(express.static(__dirname + '/dist'));
+app.use(express.static(__dirname + '/public'));
   
 
 app.use(
@@ -68,7 +69,7 @@ app.get('/help', (req, res) => {
 // ==========================================================================
 // Deploy vue-app
 // ==========================================================================
-const publicRoot = __dirname + '/public/dist';
+const publicRoot = __dirname + '/dist';
 
 app.get('/', (req, res, next) => {
   res.sendFile(publicRoot + '/index.html');
