@@ -266,6 +266,7 @@ app
     console.log('PATCH user');
     User.updateOne({ _id: req.params.userID }, { $set: req.body }, (err, results) => {
       if (!err) {
+        console.log('patched one user');
         updateUsersFromDB()
         res.send(results);
       } else {
