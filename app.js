@@ -227,12 +227,12 @@ app
     console.log('DELETE all Users');
     User.deleteMany((err) => {
       if (!err) {
+        updateUsersFromDB()
         res.send('Successfully deleted ALL users');
       } else {
         res.send(err);
       }
     });
-    updateUsersFromDB()
   });
 ///////////////////// request for a specific user
 app
@@ -254,34 +254,34 @@ app
     // console.log(req.body);
     User.replaceOne({ _id: req.params.userID }, req.body, (err, results) => {
       if (!err) {
+        updateUsersFromDB()
         res.send(results);
       } else {
         res.send(err);
       }
     });
-    updateUsersFromDB()
   })
 
   .patch((req, res) => {
     console.log('PATCH user');
     User.updateOne({ _id: req.params.userID }, { $set: req.body }, (err, results) => {
       if (!err) {
+        updateUsersFromDB()
         res.send(results);
       } else {
         res.send(err);
       }
     });
-    updateUsersFromDB()
   })
   .delete((req, res) => {
     User.deleteOne({ _id: req.params.userID }, (err) => {
       if (!err) {
+        updateUsersFromDB()
         res.send('🚫successfully deleted ONE User');
       } else {
         res.send(err);
       }
     });
-    updateUsersFromDB()
   });
 
 // hardcoded users for testing
