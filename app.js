@@ -212,16 +212,16 @@ app
   })
   .post((req, res) => {
     console.log('POST new user', req.body);
-
     const newUser = new User(req.body);
     newUser.save((err) => {
       if (!err) {
+        console.log('Succesfully added a new user: ' + newUser.name);
+        updateUsersFromDB()
         res.send('Succesfully added a new user: ' + newUser.name);
       } else {
         res.send(err);
       }
     });
-    updateUsersFromDB()
   })
   .delete((req, res) => {
     console.log('DELETE all Users');
