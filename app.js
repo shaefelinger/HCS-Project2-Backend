@@ -97,9 +97,10 @@ const blogpostSchema = mongoose.Schema({
   authorPic: String
 });
 
+
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
 
-///////////////////// request for ALL blogposts
+////////////////////// request for ALL blogposts
 app
   .route('/blogposts')
   .get((req, res) => {
