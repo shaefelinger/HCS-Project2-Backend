@@ -93,6 +93,8 @@ const blogpostSchema = mongoose.Schema({
   wiki: String,
   utcOffset: Number,
   authorID: String,
+  author: String,
+  authorPic: String
 });
 
 const Blogpost = mongoose.model('Blogpost', blogpostSchema);
