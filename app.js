@@ -219,6 +219,7 @@ app
         updateUsersFromDB()
         res.send('Succesfully added a new user: ' + newUser.name);
       } else {
+        console.log('Error adding a new user');
         res.send(err);
       }
     });
