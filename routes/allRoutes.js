@@ -3,6 +3,12 @@ const router = express.Router();
 
 const isAuth = require(__basedir + '/middleware/isAuth');
 
+const { body } = require('express-validator');
+const User = require(__basedir + '/models/userModel.js');
+
+const { userValidationRules, validate } = require(__basedir +
+  '/services/validator.js');
+
 const helpController = require(__basedir + '/controllers/helpController');
 const testController = require(__basedir + '/controllers/testController');
 const authController = require(__basedir + '/controllers/authController.js');
@@ -29,17 +35,35 @@ router.get('/help', helpController.getHelp);
 
 // auth
 router.get('/auth', authController.getIndex);
-router.put('/auth/signup', authController.signup);
+
+router.put(
+  '/auth/signup',
+  userValidationRules(),
+  validate,
+  authController.signup
+);
+
 router.post('/auth/login', authController.login);
-router.get('/auth/status', isAuth, authController.getUserStatus);
 
 // blogposts
 router.get('/blogposts', blogpostsController.getAllBlogposts);
-router.post('/blogposts', blogpostsController.postNewBlogpost);
+router.post('/blogposts', isAuth, blogpostsController.postNewBlogpost);
 router.get('/blogposts/:blogpostID', blogpostsController.getOneBlogpost);
-router.delete('/blogposts/:blogpostID', blogpostsController.deleteOneBlogpost);
-router.put('/blogposts/:blogpostID', blogpostsController.replaceOneBlogpost);
-router.patch('/blogposts/:blogpostID', blogpostsController.updateOneBlogpost);
+router.delete(
+  '/blogposts/:blogpostID',
+  isAuth,
+  blogpostsController.deleteOneBlogpost
+);
+router.put(
+  '/blogposts/:blogpostID',
+  isAuth,
+  blogpostsController.replaceOneBlogpost
+);
+router.patch(
+  '/blogposts/:blogpostID',
+  isAuth,
+  blogpostsController.updateOneBlogpost
+);
 
 // /test
 router.get('/test/error', testController.testError);
