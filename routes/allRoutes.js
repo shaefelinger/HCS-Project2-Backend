@@ -8,8 +8,18 @@ const blogpostsController = require(__basedir +
   '/controllers/blogpostsController.js');
 
 // / root
-router.get('/', function (req, res) {
-  res.status(200).send('A request was made to the root');
+// router.get('/', function (req, res) {
+//   res.status(200).send('A request was made to the root');
+// });
+
+// ==========================================================================
+// Deploy vue-app
+// ==========================================================================
+const publicRoot = __basedir + '/dist';
+
+router.get('/', (req, res, next) => {
+  console.log('serve');
+  res.sendFile(publicRoot + '/index.html');
 });
 
 // / help
@@ -22,6 +32,10 @@ router.get('/auth/users', authController.getUsers);
 // blogposts
 router.get('/blogposts', blogpostsController.getAllBlogposts);
 router.post('/blogposts', blogpostsController.postNewBlogpost);
+router.get('/blogposts/:blogpostID', blogpostsController.getOneBlogpost);
+router.delete('/blogposts/:blogpostID', blogpostsController.deleteOneBlogpost);
+router.put('/blogposts/:blogpostID', blogpostsController.replaceOneBlogpost);
+router.patch('/blogposts/:blogpostID', blogpostsController.updateOneBlogpost);
 
 // /test
 router.get('/test/error', testController.testError);

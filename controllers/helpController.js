@@ -7,9 +7,9 @@ exports.getHelp = async (req, res, next) => {
           <h2>Server is running</h2>
           <hr>
           <h3>/blogposts</h3>
-          <p>GET - POST - DELETE</>
+          <p>GET - POST - DELETE(not implemented)</>
           <h3>/blogposts/:blogpostID</h3>
-          <p>GET - PUT - PATCH - DELETE</>
+          <p>GET - PUT - PATCH(not used) - DELETE</>
           <hr>
           <h3>/users</h3>
           <p>GET - POST - DELETE</>

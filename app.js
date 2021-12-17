@@ -8,6 +8,8 @@ const port = process.env.PORT || 3000;
 
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: '*' }));
+app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
+// app.use(cors());
 
 app.use(express.json());
 // app.use(express.static(__dirname + '/public'));
@@ -33,103 +35,7 @@ mongoose
     console.error('😱Something went wrong: ' + err);
   });
 
-// app.listen(port, () => {
-//   console.log('Server started on port ' + port);
-// });
-
 // ==========================================================================
-
-// ////////////////////// request for ALL blogposts
-// app
-//   .route('/blogposts')
-//   .get((req, res) => {
-//     console.log('auth_header:', req.headers.auth_header);
-//     Blogpost.find((err, foundBlogposts) => {
-//       console.log('GET all blogposts');
-//       if (!err) {
-//         res.send(foundBlogposts);
-//       } else {
-//         res.send(err);
-//       }
-//     });
-//   })
-//   .post((req, res) => {
-//     console.log('POST new blogpost');
-
-//     const newBlogpost = new Blogpost(req.body);
-//     newBlogpost.save((err) => {
-//       if (!err) {
-//         res.send('Succesfully added a new blogpost: ' + newBlogpost.name);
-//       } else {
-//         res.send(err);
-//       }
-//     });
-//   })
-//   .delete((req, res) => {
-//     console.log('DELETE all blogposts');
-//     Blogpost.deleteMany((err) => {
-//       if (!err) {
-//         res.send('Successfully deleted ALL blogposts.');
-//       } else {
-//         res.send(err);
-//       }
-//     });
-//   });
-
-// ///////////////////// request for a specific blogpost
-// app
-//   .route('/blogposts/:blogpostID')
-//   .get((req, res) => {
-//     console.log('GET one blogpost');
-//     Blogpost.findOne({ _id: req.params.blogpostID }, (err, foundBlogpost) => {
-//       if (foundBlogpost) {
-//         res.send(foundBlogpost);
-//       } else {
-//         // res.send('No Blogpost found');
-//         res.status(404).send('server says: No Blogpost found');
-//       }
-//     });
-//   })
-
-//   .put((req, res) => {
-//     console.log('PUT');
-//     // console.log(req.body);
-//     Blogpost.replaceOne(
-//       { _id: req.params.blogpostID },
-//       req.body,
-//       (err, results) => {
-//         if (!err) {
-//           res.send(results);
-//         } else {
-//           res.send(err);
-//         }
-//       }
-//     );
-//   })
-
-//   .patch((req, res) => {
-//     console.log('PATCH');
-//     Blogpost.updateOne(
-//       { _id: req.params.blogpostID },
-//       { $set: req.body },
-//       (err, results) => {
-//         if (!err) {
-//           res.send(results);
-//         } else {
-//           res.send(err);
-//         }
-//       }
-//     );
-//   })
-//   .delete((req, res) => {
-//     Blogpost.deleteOne({ _id: req.params.blogpostID }, (err) => {
-//       if (!err) {
-//         res.send('🚫successfully deleted ONE Blogpost');
-//       } else {
-//         res.send(err);
-//       }
-//     });
-//   });
 
 // ==========================================================================
 // Users
