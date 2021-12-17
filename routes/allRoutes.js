@@ -31,7 +31,7 @@ router.get('/help', helpController.getHelp);
 router.get('/auth', authController.getIndex);
 router.put('/auth/signup', authController.signup);
 router.post('/auth/login', authController.login);
-router.get('/status', isAuth, authController.getUserStatus);
+router.get('/auth/status', isAuth, authController.getUserStatus);
 
 // blogposts
 router.get('/blogposts', blogpostsController.getAllBlogposts);

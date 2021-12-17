@@ -66,12 +66,13 @@ exports.login = async (req, res, next) => {
     }
     // user is auth -> generate token
 
+    const secret = process.env.JWT_SECRET;
     const token = jwt.sign(
       {
         email: loadedUser.email,
         userId: loadedUser._id.toString(),
       },
-      'mysupersecret',
+      secret,
       { expiresIn: '1h' }
     );
     console.log('is auth', token);
