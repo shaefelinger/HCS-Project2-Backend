@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const isAuth = require(__basedir + '/middleware/isAuth');
+
 const helpController = require(__basedir + '/controllers/helpController');
 const testController = require(__basedir + '/controllers/testController');
 const authController = require(__basedir + '/controllers/authController.js');
@@ -27,7 +29,9 @@ router.get('/help', helpController.getHelp);
 
 // auth
 router.get('/auth', authController.getIndex);
-router.get('/auth/users', authController.getUsers);
+router.put('/auth/signup', authController.signup);
+router.post('/auth/login', authController.login);
+router.get('/status', isAuth, authController.getUserStatus);
 
 // blogposts
 router.get('/blogposts', blogpostsController.getAllBlogposts);
