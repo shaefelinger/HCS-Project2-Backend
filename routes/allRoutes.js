@@ -3,8 +3,8 @@ const router = express.Router();
 
 const isAuth = require(__basedir + '/middleware/isAuth');
 
-const { body } = require('express-validator');
-const User = require(__basedir + '/models/userModel.js');
+// const { body } = require('express-validator');
+// const User = require(__basedir + '/models/userModel.js');
 
 const { userValidationRules, validate } = require(__basedir +
   '/services/validator.js');
@@ -59,11 +59,12 @@ router.put(
   isAuth,
   blogpostsController.replaceOneBlogpost
 );
-router.patch(
-  '/blogposts/:blogpostID',
-  isAuth,
-  blogpostsController.updateOneBlogpost
-);
+// not used:
+// router.patch(
+//   '/blogposts/:blogpostID',
+//   isAuth,
+//   blogpostsController.updateOneBlogpost
+// );
 
 // /test
 router.get('/test/error', testController.testError);

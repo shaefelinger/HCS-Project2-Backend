@@ -61,16 +61,16 @@ exports.replaceOneBlogpost = async (req, res, next) => {
   }
 };
 
-exports.updateOneBlogpost = async (req, res, next) => {
-  const _id = req.params.blogpostID;
-  const $set = req.body;
-  console.log('Update one blogpost', _id);
-  try {
-    const result = await Blogpost.updateOne({ _id }, { $set });
-    res
-      .status(200)
-      .json({ message: `Updated ${result.nModified} blogpost(s)` });
-  } catch (err) {
-    next(err);
-  }
-};
+// exports.updateOneBlogpost = async (req, res, next) => {
+//   const _id = req.params.blogpostID;
+//   const $set = req.body;
+//   console.log('PATCH - Update one blogpost', _id);
+//   try {
+//     const result = await Blogpost.updateOne({ _id }, { $set });
+//     res
+//       .status(200)
+//       .json({ message: `Updated ${result.nModified} blogpost(s)` });
+//   } catch (err) {
+//     next(err);
+//   }
+// };

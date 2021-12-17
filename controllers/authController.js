@@ -20,7 +20,7 @@ exports.getIndex = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
   console.log('signup');
   console.log(req.errors);
-  // check first if user exists
+
   try {
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
@@ -59,7 +59,6 @@ exports.login = async (req, res, next) => {
 
     if (!user) {
       const error = new customError('Login Data is wrong', 401);
-      // error.statusCode = 401;
       throw error;
     }
     loadedUser = user;
@@ -67,7 +66,6 @@ exports.login = async (req, res, next) => {
 
     if (!isEqual) {
       const error = new customError('Login Data is wrong', 401);
-      // error.statusCode = 401;
       throw error;
     }
     // user is auth -> generate token
