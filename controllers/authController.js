@@ -35,21 +35,31 @@ exports.signup = async (req, res, next) => {
     const email = req.body.email;
     const name = req.body.name;
     const password = req.body.password;
+    const profilePic = req.body.profilePic;
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = new User({
       email,
       password: hashedPassword,
       name,
+      profilePic,
     });
     const result = await user.save();
-    res
-      .status(201)
-      .json({
-        message: 'User created',
-        userID: result._id,
-        email: result.email,
-      });
+    const secret = process.env.JWT_SECRET;
+    const token = jwt.sign(
+      {
+        email: user.email,
+        userId: user._id.toString(),
+      },
+      secret,
+      { expiresIn: '1h' }
+    );
+    res.status(201).json({
+      message: 'User created',
+      token,
+      userID: result._id,
+      email: result.email,
+    });
   } catch (err) {
     // if (!err.statusCode) err.statusCode = 500;
     next(err);
@@ -64,14 +74,20 @@ exports.login = async (req, res, next) => {
     const user = await User.findOne({ email: email });
 
     if (!user) {
-      const error = new customError('Login Data is wrong', 401);
+      const error = new customError(
+        'Wrong password or username - try again!',
+        401
+      );
       throw error;
     }
     loadedUser = user;
     const isEqual = await bcrypt.compare(password, user.password);
 
     if (!isEqual) {
-      const error = new customError('Login Data is wrong', 401);
+      const error = new customError(
+        'Wrong password or username - try again!',
+        401
+      );
       throw error;
     }
     // user is auth -> generate token
@@ -86,7 +102,13 @@ exports.login = async (req, res, next) => {
       { expiresIn: '1h' }
     );
     console.log('is auth', token);
-    res.status(200).json({ token: token, userId: loadedUser._id.toString() });
+    res.status(200).json({
+      token: token,
+      userId: loadedUser._id.toString(),
+      email,
+      name: loadedUser.name,
+      profilePic: loadedUser.profilePic,
+    });
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
     next(err);
