@@ -52,12 +52,12 @@ exports.signup = async (req, res, next) => {
         userId: user._id.toString(),
       },
       secret,
-      { expiresIn: '1h' }
+      { expiresIn: '1min' }
     );
     res.status(201).json({
       message: 'User created',
       token,
-      userID: result._id,
+      profilePic,
       email: result.email,
     });
   } catch (err) {
@@ -76,7 +76,7 @@ exports.login = async (req, res, next) => {
     if (!user) {
       const error = new customError(
         'Wrong password or username - try again!',
-        401
+        422
       );
       throw error;
     }
@@ -86,7 +86,7 @@ exports.login = async (req, res, next) => {
     if (!isEqual) {
       const error = new customError(
         'Wrong password or username - try again!',
-        401
+        422
       );
       throw error;
     }
