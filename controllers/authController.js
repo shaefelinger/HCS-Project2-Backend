@@ -7,7 +7,7 @@ const customError = require(__basedir + '/error/customError');
 
 const { validationResult } = require('express-validator');
 
-/// just for testing - remove
+// just for testing - remove
 exports.getIndex = async (req, res, next) => {
   try {
     const users = await User.find();
@@ -19,7 +19,10 @@ exports.getIndex = async (req, res, next) => {
 
 exports.signup = async (req, res, next) => {
   console.log('signup');
-  console.log(req.errors);
+  console.log('errors', req.errors);
+  console.log('file', req.file);
+  console.log('image', req.image);
+  console.log('body', req.body);
 
   try {
     // const errors = validationResult(req);

@@ -14,6 +14,8 @@ const testController = require(__basedir + '/controllers/testController');
 const authController = require(__basedir + '/controllers/authController.js');
 const blogpostsController = require(__basedir +
   '/controllers/blogpostsController.js');
+const uploadController = require(__basedir +
+  '/controllers/uploadController.js');
 
 // / root
 router.get('/', function (req, res) {
@@ -36,7 +38,7 @@ router.get('/help', helpController.getHelp);
 // auth
 router.get('/auth', authController.getIndex);
 
-router.put(
+router.post(
   '/auth/signup',
   userValidationRules(),
   validate,
@@ -66,7 +68,16 @@ router.put(
 //   blogpostsController.updateOneBlogpost
 // );
 
+// upload
+const imageUpload = require(__basedir + '/services/imageUpload');
+router.post(
+  '/upload/profilepic',
+  imageUpload,
+  uploadController.uploadProfilePic
+);
+
 // /test
 router.get('/test/error', testController.testError);
+router.post('/test/file', imageUpload, testController.testFunction);
 
 module.exports = router;
