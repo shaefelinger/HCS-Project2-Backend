@@ -10,6 +10,7 @@ const cors = require('cors');
 // app.use(cors({ credentials: true, origin: '*' }));
 // app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
 // app.use(cors());
+const multer = require('multer');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,6 +24,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
+
+const imageUpload = require(__basedir + '/services/imageUpload');
+app.use(imageUpload);
 
 const allRoutes = require(__basedir + '/routes/allRoutes');
 const errorHandler = require(__basedir + '/error/errorHandler');
