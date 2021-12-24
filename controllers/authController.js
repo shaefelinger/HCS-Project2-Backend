@@ -59,6 +59,7 @@ exports.signup = async (req, res, next) => {
     );
     res.status(201).json({
       message: 'User created',
+      name,
       token,
       profilePic,
       email: result.email,

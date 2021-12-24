@@ -25,8 +25,8 @@ app.use((req, res, next) => {
 app.use(express.json());
 app.use(express.static(__dirname + '/public'));
 
-const imageUpload = require(__basedir + '/services/imageUpload');
-app.use(imageUpload);
+// const imageUpload = require(__basedir + '/services/imageUpload');
+// app.use(imageUpload);
 
 const allRoutes = require(__basedir + '/routes/allRoutes');
 const errorHandler = require(__basedir + '/error/errorHandler');
