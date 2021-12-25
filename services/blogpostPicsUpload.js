@@ -1,7 +1,7 @@
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
-const UPLOAD_PATH = 'public/uploads/locationPics';
+const UPLOAD_PATH = 'public/blogpostPics';
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -13,7 +13,8 @@ const fileStorage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-  console.log(file.mimetype);
+  console.log(file);
+  // console.log(file.mimetype);
   if (
     file.mimetype === 'image/png' ||
     file.mimetype === 'image/jpg' ||
@@ -30,4 +31,4 @@ const fileFilter = (req, file, cb) => {
 module.exports = multer({
   storage: fileStorage,
   fileFilter: fileFilter,
-}).single('image');
+}).array('images', 2);

@@ -28,6 +28,25 @@ app.use(express.static(__dirname + '/public'));
 // const imageUpload = require(__basedir + '/services/imageUpload');
 // app.use(imageUpload);
 
+// const upload = multer({ dest: 'uploads/' });
+
+// const fileStorage = multer.diskStorage({
+//   destination: (req, file, callback) => {
+//     callback(null, UPLOAD_PATH);
+//   },
+//   filename: (req, file, callback) => {
+//     callback(null, uuidv4() + '-' + file.originalname);
+//   },
+// });
+
+// app.post('/upload/pics', upload.array('photos', 2), function (req, res, next) {
+//   console.log(req.files);
+//   next();
+//   // next();
+//   // req.files is array of `photos` files
+//   // req.body will contain the text fields, if there were any
+// });
+
 const allRoutes = require(__basedir + '/routes/allRoutes');
 const errorHandler = require(__basedir + '/error/errorHandler');
 

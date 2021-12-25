@@ -69,15 +69,23 @@ router.put(
 // );
 
 // upload
-const imageUpload = require(__basedir + '/services/imageUpload');
+const profilePicUpload = require(__basedir + '/services/profilePicUpload');
+const blogpostPicsUpload = require(__basedir + '/services/blogpostPicsUpload');
+
 router.post(
   '/upload/profilepic',
-  imageUpload,
-  uploadController.uploadProfilePic
+  profilePicUpload,
+  uploadController.profilePicUpload
+);
+
+router.post(
+  '/upload/blogpostpics',
+  blogpostPicsUpload,
+  uploadController.blogpostPicsUpload
 );
 
 // /test
 router.get('/test/error', testController.testError);
-router.post('/test/file', imageUpload, testController.testFunction);
+router.post('/test/file', profilePicUpload, testController.testFunction);
 
 module.exports = router;
