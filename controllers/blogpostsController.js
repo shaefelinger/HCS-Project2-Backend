@@ -68,10 +68,12 @@ exports.postNewBlogpost = async (req, res, next) => {
     console.log(process.env.path);
 
     const newBlogpost = new Blogpost(req.body);
-    newBlogpost.image1URL =
-      'http://localhost:3000/' + '/blogpostPics/' + image1new;
-    newBlogpost.image2URL =
-      'http://localhost:3000/' + '/blogpostPics/' + image2new;
+    newBlogpost.image1URL = __basedir + '/blogpostPics/' + image1new;
+    newBlogpost.image2URL = __basedir + '/blogpostPics/' + image2new;
+    // newBlogpost.image1URL =
+    //   'http://localhost:3000/' + '/blogpostPics/' + image1new;
+    // newBlogpost.image2URL =
+    //   'http://localhost:3000/' + '/blogpostPics/' + image2new;
     const result = await newBlogpost.save();
     res
       .status(200)
