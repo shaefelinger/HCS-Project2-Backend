@@ -39,6 +39,9 @@ exports.getAllBlogposts = async (req, res, next) => {
 exports.postNewBlogpost = async (req, res, next) => {
   console.log('POST new blogpost', req.body);
 
+  // const BACKEND_URL = 'http://localhost:3000/';
+  const BACKEND_URL = 'https://aroundtheworld-backend.apps.functionfactory.de/';
+
   // axios
   //   .get(
   //     'http://www.sclance.com/pngs/png-file-download/png_file_download_1057991.png',
@@ -68,8 +71,8 @@ exports.postNewBlogpost = async (req, res, next) => {
     console.log(process.env.path);
 
     const newBlogpost = new Blogpost(req.body);
-    newBlogpost.image1URL = __basedir + '/blogpostPics/' + image1new;
-    newBlogpost.image2URL = __basedir + '/blogpostPics/' + image2new;
+    newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
+    newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
     // newBlogpost.image1URL =
     //   'http://localhost:3000/' + '/blogpostPics/' + image1new;
     // newBlogpost.image2URL =
