@@ -1,9 +1,14 @@
 const Blogpost = require(__basedir + '/models/blogpostModel');
 
 const fs = require('fs');
+
 const axios = require('axios');
 
 const { v4: uuidv4 } = require('uuid');
+
+var extractFileNameFromPath = function (str) {
+  return str.split('\\').pop().split('/').pop();
+};
 
 // using axios
 async function downloadImage(url, filename) {
@@ -39,8 +44,8 @@ exports.getAllBlogposts = async (req, res, next) => {
 exports.postNewBlogpost = async (req, res, next) => {
   console.log('POST new blogpost', req.body);
 
-  // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-  const BACKEND_URL = 'https://aroundtheworld-backend.apps.functionfactory.de/';
+  const BACKEND_URL = 'http://localhost:3000/'; // just for dev
+  // const BACKEND_URL = 'https://aroundtheworld-backend.apps.functionfactory.de/';
 
   // axios
   //   .get(
@@ -99,9 +104,25 @@ exports.getOneBlogpost = async (req, res, next) => {
 
 exports.deleteOneBlogpost = async (req, res, next) => {
   const _id = req.params.blogpostID;
+
   console.log('DELETE one blogpost', _id);
   try {
+    const blogpostToDelete = await Blogpost.findOne({ _id });
+    console.log('blogpostToDelete', blogpostToDelete);
+    const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
+    const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
+
+    fs.unlink('public/blogpostPics/' + img1, (err) => {
+      if (err) throw err;
+      console.log('successfully deleted file1');
+    });
+    fs.unlink('public/blogpostPics/' + img2, (err) => {
+      if (err) throw err;
+      console.log('successfully deleted file2');
+    });
+
     const result = await Blogpost.deleteOne({ _id });
+
     res
       .status(200)
       .json({ message: `Deleted ${result.deletedCount} blogpost(s)` });
