@@ -5,7 +5,7 @@ const axios = require('axios');
 
 // using axios
 async function downloadImage(url, filename) {
-  const path = __basedir + '/uploads/' + filename;
+  const path = __basedir + '/public/blogpostPics/' + filename;
   const writer = fs.createWriteStream(path);
 
   const response = await axios({
