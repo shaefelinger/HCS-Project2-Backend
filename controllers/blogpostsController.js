@@ -46,7 +46,7 @@ exports.postNewBlogpost = async (req, res, next) => {
 
   // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
   const BACKEND_URL =
-    'https://aroundtheworld-backend.apps2.functionfactory.de/';
+    'https://aroundtheworld-backend2.apps.functionfactory.de/';
 
   // axios
   //   .get(
