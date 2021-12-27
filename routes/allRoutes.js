@@ -78,14 +78,16 @@ router.post(
   uploadController.profilePicUpload
 );
 
-router.post(
-  '/upload/blogpostpics',
-  blogpostPicsUpload,
-  uploadController.blogpostPicsUpload
-);
+// router.post(
+//   '/upload/blogpostpics',
+//   blogpostPicsUpload,
+//   uploadController.blogpostPicsUpload
+// );
+
+router.post('/upload/blogpostpics', uploadController.blogpostPicsUpload);
 
 // /test
 router.get('/test/error', testController.testError);
-router.post('/test/file', profilePicUpload, testController.testFunction);
+router.get('/test', testController.testFunction);
 
 module.exports = router;
