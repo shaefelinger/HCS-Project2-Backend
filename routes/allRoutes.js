@@ -70,7 +70,7 @@ router.put(
 
 // upload
 const profilePicUpload = require(__basedir + '/services/profilePicUpload');
-const blogpostPicsUpload = require(__basedir + '/services/blogpostPicsUpload');
+// const blogpostPicsUpload = require(__basedir + '/services/blogpostPicsUpload');
 
 router.post(
   '/upload/profilepic',
