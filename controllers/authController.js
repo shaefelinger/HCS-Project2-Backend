@@ -55,7 +55,7 @@ exports.signup = async (req, res, next) => {
         userId: user._id.toString(),
       },
       secret,
-      { expiresIn: '1min' }
+      { expiresIn: '1h' }
     );
     res.status(201).json({
       message: 'User created',
@@ -65,7 +65,6 @@ exports.signup = async (req, res, next) => {
       email: result.email,
     });
   } catch (err) {
-    // if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
 };
