@@ -42,23 +42,6 @@ exports.testFunction = async (req, res, next) => {
   }
 };
 
-// exports.testFunction = async (req, res, next) => {
-//   console.log('TEST');
-//   const url =
-//     'https://maps.googleapis.com/maps/api/place/js/PhotoService.GetPhoto?1sAap_uEC58C5b2QrPogPcf4zcOYQEemp2msg9lvoS8mHG7oVhBwh5UUIb1Ok64IpyDdbh8RBdoLYdGT3i8_DVdCiL7AJfzTIR9At0HhezWwekpQIYRg2mHoH7oxmnnhsjgSohhtccpFEK8GhZaEL-smdsRmostQxmBxIN3NzfJxnnFFst1EA&3u5184&5m1&2e1&callback=none&key=AIzaSyC6iru9XKYIvVQaPG6oK1sLFBXyeSJkwWs&token=40047';
-//   const path = __basedir + '/uploads/test.jpg';
-
-//   try {
-//     download(url, path, (example_image_1) => {
-//       console.log('✅ Done!', example_image_1);
-//     });
-
-//     res.json(req.file);
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
-
 exports.testError = async (req, res, next) => {
   console.log('Error');
 

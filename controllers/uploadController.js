@@ -3,6 +3,11 @@
 const fs = require('fs');
 const axios = require('axios');
 
+exports.profilePicUpload = async (req, res, next) => {
+  console.log('profilePicUpload:', req.file);
+  res.json(req.file);
+};
+
 // using axios
 async function downloadImage(url, filename) {
   const path = __basedir + '/public/blogpostPics/' + filename;
@@ -21,11 +26,6 @@ async function downloadImage(url, filename) {
     writer.on('error', reject);
   });
 }
-
-exports.profilePicUpload = async (req, res, next) => {
-  console.log('profilePicUpload:', req.file);
-  res.json(req.file);
-};
 
 exports.blogpostPicsUpload = async (req, res, next) => {
   console.log('blogpostPicsUpload:', req.body);

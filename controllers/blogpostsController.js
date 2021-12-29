@@ -44,41 +44,31 @@ exports.getAllBlogposts = async (req, res, next) => {
 exports.postNewBlogpost = async (req, res, next) => {
   console.log('POST new blogpost', req.body);
 
-  // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-  const BACKEND_URL =
-    'https://aroundtheworld-backend2.apps.functionfactory.de/';
-
-  // axios
-  //   .get(
-  //     'http://www.sclance.com/pngs/png-file-download/png_file_download_1057991.png',
-  //     { responseType: 'stream' }
-  //   )
-  //   .then((response) => {
-  //     // Saving file to working directory
-  //     response.data.pipe(fs.createWriteStream('todays_picture.png'));
-  //   })
-  //   .catch((error) => {
-  //     console.log(error);
-  //   });
+  const BACKEND_URL = 'http://localhost:3000/'; // just for dev
+  // const BACKEND_URL =
+  //   'https://aroundtheworld-backend2.apps.functionfactory.de/';
 
   try {
-    const uuid = uuidv4();
-    const image1new = await downloadImage(
-      req.body.image1URL,
-      req.body.name + '1-' + uuid + '.jpg'
-    );
-    const image2new = await downloadImage(
-      req.body.image2URL,
-      req.body.name + '2-' + uuid + '.jpg'
-    );
-
-    console.log(image1new, image2new);
-
-    console.log(process.env.path);
-
     const newBlogpost = new Blogpost(req.body);
-    newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
-    newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
+
+    // // start img upload
+    // const uuid = uuidv4();
+    // const image1new = await downloadImage(
+    //   req.body.image1URL,
+    //   req.body.name + '1-' + uuid + '.jpg'
+    // );
+    // const image2new = await downloadImage(
+    //   req.body.image2URL,
+    //   req.body.name + '2-' + uuid + '.jpg'
+    // );
+
+    // console.log(image1new, image2new);
+
+    // console.log(process.env.path);
+
+    // newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
+    // newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
+    // // end img upload
 
     const result = await newBlogpost.save();
     res
@@ -105,19 +95,19 @@ exports.deleteOneBlogpost = async (req, res, next) => {
 
   console.log('DELETE one blogpost', _id);
   try {
-    const blogpostToDelete = await Blogpost.findOne({ _id });
-    console.log('blogpostToDelete', blogpostToDelete);
-    const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
-    const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
+    // const blogpostToDelete = await Blogpost.findOne({ _id });
+    // console.log('blogpostToDelete', blogpostToDelete);
+    // const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
+    // const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
 
-    fs.unlink('public/blogpostPics/' + img1, (err) => {
-      if (err) throw err;
-      console.log('successfully deleted file1');
-    });
-    fs.unlink('public/blogpostPics/' + img2, (err) => {
-      if (err) throw err;
-      console.log('successfully deleted file2');
-    });
+    // fs.unlink('public/blogpostPics/' + img1, (err) => {
+    //   if (err) throw err;
+    //   console.log('successfully deleted file1');
+    // });
+    // fs.unlink('public/blogpostPics/' + img2, (err) => {
+    //   if (err) throw err;
+    //   console.log('successfully deleted file2');
+    // });
 
     const result = await Blogpost.deleteOne({ _id });
 
