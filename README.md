@@ -3,7 +3,7 @@
 
 Running on:
 
-https://aroundtheworld-blog-server.herokuapp.com
+[https://aroundtheworld-backend2.apps.functionfactory.de](https://aroundtheworld-backend2.apps.functionfactory.de/)
 
 The Frontend-Code and Documentation for the Project is here:
 
@@ -15,26 +15,13 @@ It serves the Vue-dist, provides a REST-Api for the Frontend, comunicates with t
 
 #### Routes
 
-
-|        | /blogposts           | /blogpots/:id          | /users           | /users/:id         |
-| ------ | -------------------- | ---------------------- | ---------------- | ------------------ |
-| GET    | all blogposts        | single blogpost        | all users        | single user        |
-| POST   | new blogpost         |                        | new user         |                    |
-| PUT    |                      | put single blogpost    |                  | put single user    |
-| PATCH  |                      | patch single blogpost  |                  | patch single user  |
-| DELETE | delete all blogposts | delete single blogpost | delete all users | delete single user |
-
-
-|      | auth/login | auth/user         | auth/logout         | /help     |
-| ---- | ---------- | ----------------- | ------------------- | --------- |
-| POST | login user |                   |                     |           |
-| GET  |            | show current user | logout current user | show help |
-|      |            |                   |                     |           |
-
-
-
-
-
-
+|                      | GET             | POST               | PUT                 | DELETE                 |
+| -------------------- | --------------- | ------------------ | ------------------- | ---------------------- |
+| `/blogposts`         | all blogposts   | new blogpost       |                     |                        |
+| `/blogposts/:id`     | single blogpost |                    | put single blogpost | delete single blogpost |
+| `/auth/signup`       |                 | signup new user    |                     |                        |
+| `/auth/login`        |                 | login user         |                     |                        |
+| `/upload/profilepic` |                 | upload profile-pic |                     |                        |
+| `/help`              | show help       |                    |                     |                        |
 
   
