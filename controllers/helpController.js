@@ -7,19 +7,19 @@ exports.getHelp = async (req, res, next) => {
           <h2>Server is running</h2>
           <hr>
           <h3>/blogposts</h3>
-          <p>GET - POST - DELETE(not implemented)</>
+          <p>GET - POST</>
           <h3>/blogposts/:blogpostID</h3>
-          <p>GET - PUT - PATCH(not used) - DELETE</>
+          <p>GET - PUT - DELETE</>
           <hr>
-          <h3>/users</h3>
-          <p>GET - POST - DELETE</>
-          <h3>/users/:userID</h3>
-          <p>GET - PUT - PATCH - DELETE</>
+          <h3>/auth/signup</h3>
+          <p>POST</>
+          <h3>/auth/login</h3>
+          <p>POST</>
           <hr>
-          <h3>/auth</h3>
-          <p> POST - /login</p>
-          <p> GET - /logout</p>
-          <p> GET - /user</p>
+          <h3>/upload/profilepic</h3>
+          <p>POST</p>
+          <h3>/help</h3>
+          <p>GET</p>
           `
     );
   } catch (err) {
