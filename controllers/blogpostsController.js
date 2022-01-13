@@ -23,12 +23,10 @@ async function downloadImage(url, filename) {
 
   response.data.pipe(writer);
 
-  // return new Promise((resolve, reject) => {
-  //   writer.on('finish', resolve);
-  //   writer.on('error', reject);
-  // });
-
-  return filename;
+  return new Promise((resolve, reject) => {
+    writer.on('finish', resolve);
+    writer.on('error', reject);
+  });
 }
 
 exports.getAllBlogposts = async (req, res, next) => {
@@ -51,24 +49,24 @@ exports.postNewBlogpost = async (req, res, next) => {
   try {
     const newBlogpost = new Blogpost(req.body);
 
-    // // start img upload
-    // const uuid = uuidv4();
-    // const image1new = await downloadImage(
-    //   req.body.image1URL,
-    //   req.body.name + '1-' + uuid + '.jpg'
-    // );
-    // const image2new = await downloadImage(
-    //   req.body.image2URL,
-    //   req.body.name + '2-' + uuid + '.jpg'
-    // );
+    // start img upload
+    const uuid = uuidv4();
+    const image1new = await downloadImage(
+      req.body.image1URL,
+      req.body.name + '1-' + uuid + '.jpg'
+    );
+    const image2new = await downloadImage(
+      req.body.image2URL,
+      req.body.name + '2-' + uuid + '.jpg'
+    );
 
-    // console.log(image1new, image2new);
+    console.log(image1new, image2new);
 
-    // console.log(process.env.path);
+    console.log(process.env.path);
 
     // newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
     // newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
-    // // end img upload
+    // end img upload
 
     const result = await newBlogpost.save();
     res
