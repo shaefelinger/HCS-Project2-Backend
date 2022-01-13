@@ -23,10 +23,11 @@ async function downloadImage(url, filename) {
 
   response.data.pipe(writer);
 
-  return new Promise((resolve, reject) => {
-    writer.on('finish', resolve);
-    writer.on('error', reject);
-  });
+  // return new Promise((resolve, reject) => {
+  //   writer.on('finish', resolve);
+  //   writer.on('error', reject);
+  // });
+  return filename;
 }
 
 exports.getAllBlogposts = async (req, res, next) => {
@@ -42,9 +43,9 @@ exports.getAllBlogposts = async (req, res, next) => {
 exports.postNewBlogpost = async (req, res, next) => {
   console.log('POST new blogpost', req.body);
 
-  const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-  // const BACKEND_URL =
-  //   'https://aroundtheworld-backend2.apps.functionfactory.de/';
+  // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
+  const BACKEND_URL =
+    'https://aroundtheworld-backend2.apps.functionfactory.de/';
 
   try {
     const newBlogpost = new Blogpost(req.body);
@@ -64,8 +65,8 @@ exports.postNewBlogpost = async (req, res, next) => {
 
     console.log(process.env.path);
 
-    // newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
-    // newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
+    newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
+    newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
     // end img upload
 
     const result = await newBlogpost.save();
@@ -93,19 +94,19 @@ exports.deleteOneBlogpost = async (req, res, next) => {
 
   console.log('DELETE one blogpost', _id);
   try {
-    // const blogpostToDelete = await Blogpost.findOne({ _id });
-    // console.log('blogpostToDelete', blogpostToDelete);
-    // const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
-    // const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
+    const blogpostToDelete = await Blogpost.findOne({ _id });
+    console.log('blogpostToDelete', blogpostToDelete);
+    const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
+    const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
 
-    // fs.unlink('public/blogpostPics/' + img1, (err) => {
-    //   if (err) throw err;
-    //   console.log('successfully deleted file1');
-    // });
-    // fs.unlink('public/blogpostPics/' + img2, (err) => {
-    //   if (err) throw err;
-    //   console.log('successfully deleted file2');
-    // });
+    fs.unlink('public/blogpostPics/' + img1, (err) => {
+      if (err) throw err;
+      console.log('successfully deleted file1');
+    });
+    fs.unlink('public/blogpostPics/' + img2, (err) => {
+      if (err) throw err;
+      console.log('successfully deleted file2');
+    });
 
     const result = await Blogpost.deleteOne({ _id });
 
