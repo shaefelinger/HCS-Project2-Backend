@@ -10,7 +10,10 @@ exports.profilePicUpload = async (req, res, next) => {
 
 // using axios
 async function downloadImage(url, filename) {
+  console.log('downloadImage');
   const path = __basedir + '/uploads/' + filename;
+  // const path = '/uploads/' + filename;
+  console.log('path', path);
   // const path = '/uploads/' + filename;
   const writer = fs.createWriteStream(path);
 
@@ -33,7 +36,7 @@ exports.blogpostPicsUpload = async (req, res, next) => {
   const url = req.body.url;
   const filename = req.body.filename;
   const result = await downloadImage(url, filename);
-  console.log(result);
+  console.log('img-result', result);
 
   res.json({ filename: filename });
 };
