@@ -13,7 +13,7 @@ const extractFileNameFromPath = function (str) {
   return str.split('\\').pop().split('/').pop();
 };
 
-async function getImageFromUrl(url, filename) {
+async function downloadAndSave(url, filename) {
   const filePath = path.join(__basedir, UPLOAD_PATH, filename);
   const writer = fs.createWriteStream(filePath);
 
@@ -50,11 +50,11 @@ exports.postNew = async (req, res, next) => {
 
     // start img upload
     const uuid = uuidv4();
-    const image1new = await getImageFromUrl(
+    const image1new = await downloadAndSave(
       req.body.image1URL,
       req.body.name + '1-' + uuid + '.jpg'
     );
-    const image2new = await getImageFromUrl(
+    const image2new = await downloadAndSave(
       req.body.image2URL,
       req.body.name + '2-' + uuid + '.jpg'
     );
