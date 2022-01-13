@@ -65,8 +65,8 @@ exports.postNewBlogpost = async (req, res, next) => {
 
     console.log(process.env.path);
 
-    newBlogpost.image1URL = BACKEND_URL + '/blogpostPics/' + image1new;
-    newBlogpost.image2URL = BACKEND_URL + '/blogpostPics/' + image2new;
+    newBlogpost.image1URL = BACKEND_URL + 'uploads/' + image1new;
+    newBlogpost.image2URL = BACKEND_URL + 'uploads/' + image2new;
     // end img upload
 
     const result = await newBlogpost.save();
