@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use('/public', express.static(__dirname + '/public'));
-app.use('/uploads', express.static('/uploads/'));
+app.use('/uploads', express.static(__dirname + '/uploads/'));
 
 // const imageUpload = require(__basedir + '/services/imageUpload');
 // app.use(imageUpload);
