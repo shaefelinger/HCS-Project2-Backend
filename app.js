@@ -1,4 +1,6 @@
 require('dotenv').config();
+const path = require('path');
+
 global.__basedir = __dirname;
 
 const express = require('express');
@@ -10,7 +12,7 @@ const cors = require('cors');
 // app.use(cors({ credentials: true, origin: '*' }));
 // app.use(cors({ credentials: true, origin: 'http://localhost:8080' }));
 // app.use(cors());
-const multer = require('multer');
+// const multer = require('multer');
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -62,6 +64,7 @@ mongoose
   .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
     app.listen(port, () => {
+      console.log('root: ' + __basedir);
       console.log('Connected to MongoDB and server started on port ' + port);
     });
   })

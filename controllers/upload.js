@@ -1,4 +1,5 @@
 // const customError = require(__basedir + '/error/customError');
+const path = require('path');
 
 const fs = require('fs');
 const axios = require('axios');
@@ -6,16 +7,16 @@ const axios = require('axios');
 exports.profilePicUpload = async (req, res, next) => {
   console.log('profilePicUpload:', req.file);
   res.json(req.file);
+  // not doing anything. the upload is handeld by the profilePicUpload-middleware
 };
 
-// using axios
+//
 async function downloadImage(url, filename) {
   console.log('downloadImage');
-  const path = __basedir + '/uploads/' + filename;
+  const filePath = path.join(__basedir, 'uploads', filename);
   // const path = '/uploads/' + filename;
-  console.log('path', path);
   // const path = '/uploads/' + filename;
-  const writer = fs.createWriteStream(path);
+  const writer = fs.createWriteStream(filePath);
 
   const response = await axios({
     url,

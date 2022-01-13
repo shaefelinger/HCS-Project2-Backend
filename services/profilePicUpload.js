@@ -1,7 +1,7 @@
 const multer = require('multer');
 const { v4: uuidv4 } = require('uuid');
 
-const UPLOAD_PATH = 'public/profilePics';
+const UPLOAD_PATH = 'uploads/profilePics';
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {

@@ -1,19 +1,21 @@
-const Blogpost = require(__basedir + '/models/blogpostModel');
+const Blogpost = require(__basedir + '/models/Blogpost');
+const UPLOAD_PATH = 'uploads';
 
+// const BACKEND_URL = 'http://localhost:3000/'; // just for dev
+const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de';
+
+const path = require('path');
 const fs = require('fs');
-
 const axios = require('axios');
-
 const { v4: uuidv4 } = require('uuid');
 
-var extractFileNameFromPath = function (str) {
+const extractFileNameFromPath = function (str) {
   return str.split('\\').pop().split('/').pop();
 };
 
-// using axios
-async function downloadImage(url, filename) {
-  const path = __basedir + '/public/blogpostPics/' + filename;
-  const writer = fs.createWriteStream(path);
+async function getImageFromUrl(url, filename) {
+  const filePath = path.join(__basedir, UPLOAD_PATH, filename);
+  const writer = fs.createWriteStream(filePath);
 
   const response = await axios({
     url,
@@ -30,7 +32,7 @@ async function downloadImage(url, filename) {
   return filename;
 }
 
-exports.getAllBlogposts = async (req, res, next) => {
+exports.getAll = async (req, res, next) => {
   console.log('GET all blogposts');
   try {
     const result = await Blogpost.find();
@@ -40,23 +42,19 @@ exports.getAllBlogposts = async (req, res, next) => {
   }
 };
 
-exports.postNewBlogpost = async (req, res, next) => {
+exports.postNew = async (req, res, next) => {
   console.log('POST new blogpost', req.body);
-
-  // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-  const BACKEND_URL =
-    'https://aroundtheworld-backend2.apps.functionfactory.de/';
 
   try {
     const newBlogpost = new Blogpost(req.body);
 
     // start img upload
     const uuid = uuidv4();
-    const image1new = await downloadImage(
+    const image1new = await getImageFromUrl(
       req.body.image1URL,
       req.body.name + '1-' + uuid + '.jpg'
     );
-    const image2new = await downloadImage(
+    const image2new = await getImageFromUrl(
       req.body.image2URL,
       req.body.name + '2-' + uuid + '.jpg'
     );
@@ -65,8 +63,8 @@ exports.postNewBlogpost = async (req, res, next) => {
 
     console.log(process.env.path);
 
-    newBlogpost.image1URL = BACKEND_URL + 'uploads/' + image1new;
-    newBlogpost.image2URL = BACKEND_URL + 'uploads/' + image2new;
+    newBlogpost.image1URL = path.join(BACKEND_URL, UPLOAD_PATH, image1new);
+    newBlogpost.image1URL = path.join(BACKEND_URL, UPLOAD_PATH, image2new);
     // end img upload
 
     const result = await newBlogpost.save();
@@ -78,7 +76,7 @@ exports.postNewBlogpost = async (req, res, next) => {
   }
 };
 
-exports.getOneBlogpost = async (req, res, next) => {
+exports.getOne = async (req, res, next) => {
   const _id = req.params.blogpostID;
   console.log('GET one blogpost', _id);
   try {
@@ -89,7 +87,7 @@ exports.getOneBlogpost = async (req, res, next) => {
   }
 };
 
-exports.deleteOneBlogpost = async (req, res, next) => {
+exports.deleteOne = async (req, res, next) => {
   const _id = req.params.blogpostID;
 
   console.log('DELETE one blogpost', _id);
@@ -99,11 +97,11 @@ exports.deleteOneBlogpost = async (req, res, next) => {
     const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
     const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
 
-    fs.unlink('public/blogpostPics/' + img1, (err) => {
+    fs.unlink(path.join(UPLOAD_PATH, img1), (err) => {
       if (err) throw err;
       console.log('successfully deleted file1');
     });
-    fs.unlink('public/blogpostPics/' + img2, (err) => {
+    fs.unlink(path.join(UPLOAD_PATH, img1), (err) => {
       if (err) throw err;
       console.log('successfully deleted file2');
     });
@@ -118,7 +116,7 @@ exports.deleteOneBlogpost = async (req, res, next) => {
   }
 };
 
-exports.replaceOneBlogpost = async (req, res, next) => {
+exports.replaceOne = async (req, res, next) => {
   const _id = req.params.blogpostID;
   // const $set = req.body;
   console.log('PUT - Replace one blogpost', _id);

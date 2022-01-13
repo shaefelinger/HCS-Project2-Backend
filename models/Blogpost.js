@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const blogpostSchema = mongoose.Schema({
+const Blogpost = mongoose.Schema({
   name: String,
   longName: String,
   coords: { lat: Number, lng: Number },
@@ -18,4 +18,4 @@ const blogpostSchema = mongoose.Schema({
   authorPic: String,
 });
 
-module.exports = mongoose.model('Blogpost', blogpostSchema);
+module.exports = mongoose.model('Blogpost', Blogpost);

@@ -3,91 +3,59 @@ const router = express.Router();
 
 const isAuth = require(__basedir + '/middleware/isAuth');
 
-// const { body } = require('express-validator');
-// const User = require(__basedir + '/models/userModel.js');
-
 const { userValidationRules, validate } = require(__basedir +
   '/services/validator.js');
 
-const helpController = require(__basedir + '/controllers/helpController');
-const testController = require(__basedir + '/controllers/testController');
-const authController = require(__basedir + '/controllers/authController.js');
-const blogpostsController = require(__basedir +
-  '/controllers/blogpostsController.js');
-const uploadController = require(__basedir +
-  '/controllers/uploadController.js');
+const help = require(__basedir + '/controllers/help');
+const test = require(__basedir + '/controllers/test');
+const auth = require(__basedir + '/controllers/auth.js');
+const blogposts = require(__basedir + '/controllers/blogposts.js');
+const upload = require(__basedir + '/controllers/upload.js');
 
 // / root
 router.get('/', function (req, res) {
   res.status(200).send('A request was made to the root');
 });
 
-// ==========================================================================
-// Deploy vue-app
-// ==========================================================================
-// const publicRoot = __basedir + '/dist';
-
-// router.get('/', (req, res, next) => {
-//   console.log('serve');
-//   res.sendFile(publicRoot + '/index.html');
-// });
-
 // / help
-router.get('/help', helpController.getHelp);
+router.get('/help', help.getHelp);
 
 // auth
-router.get('/auth', authController.getIndex);
+router.get('/auth', auth.getIndex);
 
-router.post(
-  '/auth/signup',
-  userValidationRules(),
-  validate,
-  authController.signup
-);
+router.post('/auth/signup', userValidationRules(), validate, auth.signup);
 
-router.post('/auth/login', authController.login);
+router.post('/auth/login', auth.login);
 
 // blogposts
-router.get('/blogposts', blogpostsController.getAllBlogposts);
-router.post('/blogposts', isAuth, blogpostsController.postNewBlogpost);
-router.get('/blogposts/:blogpostID', blogpostsController.getOneBlogpost);
-router.delete(
-  '/blogposts/:blogpostID',
-  isAuth,
-  blogpostsController.deleteOneBlogpost
-);
-router.put(
-  '/blogposts/:blogpostID',
-  isAuth,
-  blogpostsController.replaceOneBlogpost
-);
+router.get('/blogposts', blogposts.getAll);
+router.post('/blogposts', isAuth, blogposts.postNew);
+router.get('/blogposts/:blogpostID', blogposts.getOne);
+router.delete('/blogposts/:blogpostID', isAuth, blogposts.deleteOne);
+router.put('/blogposts/:blogpostID', isAuth, blogposts.replaceOne);
 // not used:
 // router.patch(
 //   '/blogposts/:blogpostID',
 //   isAuth,
-//   blogpostsController.updateOneBlogpost
+//   blogposts.updateOneBlogpost
 // );
 
 // upload
 const profilePicUpload = require(__basedir + '/services/profilePicUpload');
 // const blogpostPicsUpload = require(__basedir + '/services/blogpostPicsUpload');
 
-router.post(
-  '/upload/profilepic',
-  profilePicUpload,
-  uploadController.profilePicUpload
-);
+router.post('/upload/profilepic', profilePicUpload, upload.profilePicUpload);
 
 // router.post(
 //   '/upload/blogpostpics',
 //   blogpostPicsUpload,
-//   uploadController.blogpostPicsUpload
+//   upload.blogpostPicsUpload
 // );
 
-router.post('/upload/blogpostpics', uploadController.blogpostPicsUpload);
+router.post('/upload/blogpostpics', upload.blogpostPicsUpload);
 
 // /test
-router.get('/test/error', testController.testError);
-router.get('/test', testController.testFunction);
+router.get('/test/error', test.testError);
+router.get('/test', test.testFunction);
 
 module.exports = router;
