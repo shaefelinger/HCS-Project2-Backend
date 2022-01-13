@@ -14,7 +14,8 @@ const extractFileNameFromPath = function (str) {
 };
 
 async function downloadAndSave(url, filename) {
-  const filePath = path.join(__basedir, UPLOAD_PATH, filename);
+  const filePath = path.join(UPLOAD_PATH, filename);
+  // const filePath = path.join(__basedir, UPLOAD_PATH, filename);
   const writer = fs.createWriteStream(filePath);
 
   const response = await axios({
