@@ -1,5 +1,5 @@
 const Blogpost = require(__basedir + '/models/Blogpost');
-const UPLOAD_PATH = 'uploads';
+const UPLOAD_PATH = 'uploads/blogpostPics';
 
 // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
 const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de';
@@ -61,12 +61,12 @@ exports.postNew = async (req, res, next) => {
       req.body.name + '2-' + uuid + '.jpg'
     );
 
-    console.log(image1new, image2new);
+    console.log('images', image1new, image2new);
 
-    console.log(process.env.path);
+    console.log('process.env.path', process.env.path);
 
     newBlogpost.image1URL = path.join(BACKEND_URL, UPLOAD_PATH, image1new);
-    newBlogpost.image1URL = path.join(BACKEND_URL, UPLOAD_PATH, image2new);
+    newBlogpost.image2URL = path.join(BACKEND_URL, UPLOAD_PATH, image2new);
     // end img upload
 
     const result = await newBlogpost.save();
@@ -99,11 +99,13 @@ exports.deleteOne = async (req, res, next) => {
     const img1 = extractFileNameFromPath(blogpostToDelete.image1URL);
     const img2 = extractFileNameFromPath(blogpostToDelete.image2URL);
 
+    console.log('images to delete:', img1, img2);
+
     fs.unlink(path.join(UPLOAD_PATH, img1), (err) => {
       if (err) throw err;
       console.log('successfully deleted file1');
     });
-    fs.unlink(path.join(UPLOAD_PATH, img1), (err) => {
+    fs.unlink(path.join(UPLOAD_PATH, img2), (err) => {
       if (err) throw err;
       console.log('successfully deleted file2');
     });
