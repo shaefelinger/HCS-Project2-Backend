@@ -2,7 +2,7 @@ const Blogpost = require(__basedir + '/models/Blogpost');
 const UPLOAD_PATH = 'uploads/blogpostPics';
 
 // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de';
+const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de/';
 
 const path = require('path');
 const fs = require('fs');
@@ -45,7 +45,7 @@ exports.getAll = async (req, res, next) => {
 };
 
 exports.postNew = async (req, res, next) => {
-  console.log('POST new blogpost', req.body);
+  console.log('POST new blogpost');
 
   try {
     const newBlogpost = new Blogpost(req.body);
@@ -63,10 +63,10 @@ exports.postNew = async (req, res, next) => {
 
     console.log('images', image1new, image2new);
 
-    console.log('process.env.path', process.env.path);
+    // console.log('process.env.path', process.env.path);
 
-    newBlogpost.image1URL = path.join(BACKEND_URL, UPLOAD_PATH, image1new);
-    newBlogpost.image2URL = path.join(BACKEND_URL, UPLOAD_PATH, image2new);
+    newBlogpost.image1URL = BACKEND_URL + path.join(UPLOAD_PATH, image1new);
+    newBlogpost.image2URL = BACKEND_URL + path.join(UPLOAD_PATH, image2new);
     // end img upload
 
     const result = await newBlogpost.save();
