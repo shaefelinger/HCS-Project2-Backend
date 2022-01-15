@@ -8,7 +8,7 @@ const fileStorage = multer.diskStorage({
     callback(null, UPLOAD_PATH);
   },
   filename: (req, file, callback) => {
-    callback(null, uuidv4() + '-' + file.originalname);
+    callback(null, file.originalname + uuidv4().slice(13));
   },
 });
 
