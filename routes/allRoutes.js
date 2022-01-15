@@ -14,7 +14,7 @@ const upload = require(__basedir + '/controllers/upload.js');
 
 // / root
 router.get('/', function (req, res) {
-  res.status(200).send('A request was made to the root');
+  res.status(200).send('A request was made to the root: ' + __basedir);
 });
 
 // / help

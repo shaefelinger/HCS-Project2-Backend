@@ -11,8 +11,8 @@ exports.profilePicUpload = async (req, res, next) => {
 };
 
 //
-async function downloadImage(url, filename) {
-  console.log('downloadImage');
+async function downloadAndSave(url, filename) {
+  console.log('downloadAndSave');
   const filePath = path.join(__basedir, 'uploads', filename);
   // const path = '/uploads/' + filename;
   // const path = '/uploads/' + filename;
@@ -36,7 +36,7 @@ exports.blogpostPicsUpload = async (req, res, next) => {
   console.log('blogpostPicsUpload:', req.body);
   const url = req.body.url;
   const filename = req.body.filename;
-  const result = await downloadImage(url, filename);
+  const result = await downloadAndSave(url, filename);
   console.log('img-result', result);
 
   res.json({ filename: filename });
