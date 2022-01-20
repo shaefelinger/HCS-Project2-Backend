@@ -21,7 +21,7 @@ router.get('/', function (req, res) {
 router.get('/help', help.getHelp);
 
 // auth
-router.get('/auth', auth.getIndex);
+router.get('/auth', auth.getIndex); // just to experimant - delete
 
 router.post('/auth/signup', userValidationRules(), validate, auth.signup);
 

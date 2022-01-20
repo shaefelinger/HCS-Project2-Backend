@@ -55,7 +55,8 @@ exports.signup = async (req, res, next) => {
         userId: user._id.toString(),
       },
       secret,
-      { expiresIn: '1h' }
+      // { expiresIn: '1h' }
+      { expiresIn: 10 }
     );
     res.status(201).json({
       message: 'User created',
@@ -102,7 +103,7 @@ exports.login = async (req, res, next) => {
         userId: loadedUser._id.toString(),
       },
       secret,
-      { expiresIn: '1h' }
+      { expiresIn: 10 }
     );
     console.log('is auth', token);
     res.status(200).json({
