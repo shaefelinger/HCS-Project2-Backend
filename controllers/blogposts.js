@@ -2,7 +2,9 @@ const Blogpost = require(__basedir + '/models/Blogpost');
 const UPLOAD_PATH = 'uploads/blogpostPics';
 
 // const BACKEND_URL = 'http://localhost:3000/'; // just for dev
-const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de/';
+// const BACKEND_URL = 'https://aroundtheworld-backend2.apps.functionfactory.de/';
+const BACKEND_URL = 'https://hcs-project2-backend.onrender.com/';
+
 
 const path = require('path');
 const fs = require('fs');
